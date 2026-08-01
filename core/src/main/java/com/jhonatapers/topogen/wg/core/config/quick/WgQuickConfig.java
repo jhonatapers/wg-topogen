@@ -6,7 +6,7 @@ public abstract class WgQuickConfig implements Config {
 
     @Override
     public boolean accept(Format format) {
-        return Format.WG_CORE.equals(format);
+        return Format.WG_CORE.equals(format) || Format.WG_QUICK.equals(format);
     }
 
     @Override

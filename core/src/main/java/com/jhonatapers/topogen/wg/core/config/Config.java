@@ -6,6 +6,10 @@ public interface Config {
 
     String value();
 
+    default boolean validate() {
+        return true;
+    }
+
     boolean accept(Format format);
 
     boolean accept(Section section);
