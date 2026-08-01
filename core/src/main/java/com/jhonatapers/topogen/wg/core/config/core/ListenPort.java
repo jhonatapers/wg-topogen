@@ -1,0 +1,29 @@
+package com.jhonatapers.topogen.wg.core.config.core;
+
+import com.jhonatapers.topogen.wg.core.config.Config;
+
+public final class ListenPort extends WgCoreConfig {
+
+    private static final String NAME = "ListenPort";
+    private final int value;
+
+    private ListenPort(int value) {
+        super(Config.Section.INTERFACE);
+        this.value = value;
+    }
+
+    public static ListenPort ofValue(int value) {
+        return new ListenPort(value);
+    }
+
+    @Override
+    public String name() {
+        return NAME;
+    }
+
+    @Override
+    public String value() {
+        return String.valueOf(this.value);
+    }
+
+}
