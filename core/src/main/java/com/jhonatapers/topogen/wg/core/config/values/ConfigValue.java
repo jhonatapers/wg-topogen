@@ -8,13 +8,13 @@ public interface ConfigValue {
 
     String value();
 
-    default boolean validate() {
-        return true;
-    }
-
     boolean accept(Format format);
 
     boolean accept(Section section);
+
+    default boolean validate() {
+        return true;
+    }
 
     public enum Format {
         WG_CORE,
