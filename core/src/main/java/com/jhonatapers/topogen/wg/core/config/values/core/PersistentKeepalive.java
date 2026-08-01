@@ -1,6 +1,6 @@
-package com.jhonatapers.topogen.wg.core.config.core;
+package com.jhonatapers.topogen.wg.core.config.values.core;
 
-import com.jhonatapers.topogen.wg.core.config.Config;
+import com.jhonatapers.topogen.wg.core.config.section.Section;
 
 public final class PersistentKeepalive extends WgCoreConfig {
 
@@ -8,7 +8,7 @@ public final class PersistentKeepalive extends WgCoreConfig {
     private final String value;
 
     private PersistentKeepalive(String value) {
-        super(Config.Section.PEER);
+        super(Section.PEER);
         this.value = value;
     }
 

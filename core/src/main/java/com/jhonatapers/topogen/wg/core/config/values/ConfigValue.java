@@ -1,6 +1,8 @@
-package com.jhonatapers.topogen.wg.core.config;
+package com.jhonatapers.topogen.wg.core.config.values;
 
-public interface Config {
+import com.jhonatapers.topogen.wg.core.config.section.Section;
+
+public interface ConfigValue {
 
     String name();
 
@@ -17,11 +19,6 @@ public interface Config {
     public enum Format {
         WG_CORE,
         WG_QUICK,
-    }
-
-    public enum Section {
-        INTERFACE,
-        PEER
     }
 
 }

@@ -1,6 +1,6 @@
-package com.jhonatapers.topogen.wg.core.config.core;
+package com.jhonatapers.topogen.wg.core.config.values.core;
 
-import com.jhonatapers.topogen.wg.core.config.Config;
+import com.jhonatapers.topogen.wg.core.config.section.Section;
 
 public final class PrivateKey extends WgCoreConfig {
 
@@ -8,7 +8,7 @@ public final class PrivateKey extends WgCoreConfig {
     private final String value;
 
     private PrivateKey(String value) {
-        super(Config.Section.INTERFACE);
+        super(Section.INTERFACE);
         this.value = value;
     }
 

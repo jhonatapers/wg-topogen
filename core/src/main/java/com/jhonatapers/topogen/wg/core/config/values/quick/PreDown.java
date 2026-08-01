@@ -1,4 +1,4 @@
-package com.jhonatapers.topogen.wg.core.config.quick;
+package com.jhonatapers.topogen.wg.core.config.values.quick;
 
 public final class PreDown extends WgQuickConfig {
 
