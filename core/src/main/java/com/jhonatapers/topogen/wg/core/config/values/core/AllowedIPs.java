@@ -26,10 +26,4 @@ public final class AllowedIPs extends WgCoreConfig {
         return this.value;
     }
 
-    @Override
-    public boolean accept(Section section) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
-    }
-
 }

@@ -25,4 +25,5 @@ public final class PublicKey extends WgCoreConfig {
     public String value() {
         return this.value;
     }
+
 }
