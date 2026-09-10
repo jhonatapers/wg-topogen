@@ -1,0 +1,46 @@
+version: "1"
+
+networks:
+  corp:
+    addresses:
+      ipv4:
+        cidr: 10.20.0.0/16
+
+endpoints:
+  hub-server:
+    node:
+      roles:
+        - hub
+      networks:
+        - corp
+
+  edge-clients:
+    pool:
+      capacity: 50
+      roles:
+        - spoke
+      networks:
+        - corp
+
+links:
+  - source:
+      id: edge-clients
+    target:
+      id: hub-server
+
+routes:
+  - source:
+      selector:
+        role: spoke
+    target:
+      selector:
+        role: hub
+
+policies:
+  - source:
+      selector:
+        role: spoke
+    destination:
+      selector:
+        role: hub
+    action: allow

@@ -1,0 +1,59 @@
+devices:
+  - name: server1
+    labels: [SERVER]
+  - name: client1
+    labels: [CLIENT]
+  - name: client2
+    labels: [CLIENT]
+  - name: client3
+    labels: [CLIENT]
+
+edges:
+  - source:
+      type: device_name
+      value: server1
+    target:
+      type: label
+      value: CLIENT
+    direction: undirected
+
+networks:
+  - name: mgmt
+    selector:
+      type: label
+      value: SERVER
+    cidrs:
+      - 10.0.0.0/24
+    gateway: 10.0.0.1
+    dns: [8.8.8.8, 8.8.4.4]
+    description: "Rede de gerenciamento para servidores"
+
+  - name: clients-net
+    selector:
+      type: label
+      value: CLIENT
+    cidrs:
+      - 10.0.1.0/24
+      - 10.0.2.0/24
+    gateway: 10.0.1.1
+    template:
+      persistent_keepalive: 25
+    description: "Rede para clientes, duas sub-redes para escalonamento"
+
+  - name: special-peer
+    selector:
+      type: device_name
+      value: client2
+    cidrs:
+      - 192.168.100.0/28
+    gateway: 192.168.100.1
+    dns: [1.1.1.1]
+    device_overrides:
+      client2:
+        allowed_ips: ["192.168.100.2/32"]
+        extra_keys:
+          - "tag:special"
+
+defaults:
+  cidr_allocation_strategy: sequential # ou hash/name-based
+  mtu: 1420

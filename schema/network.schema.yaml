@@ -1,0 +1,344 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$id: "https://example.com/network-ir.schema.yaml"
+
+title: "Network IR"
+description: "Declarative and transport-independent representation of a network topology."
+type: object
+
+required:
+  - version
+  - networks
+  - endpoints
+  - links
+  - routes
+  - policies
+
+additionalProperties: false
+
+properties:
+
+  version:
+    type: string
+    const: "1"
+    description: "Version of the Network IR specification."
+
+  networks:
+    type: object
+    description: "Logical networks available in the topology."
+    additionalProperties:
+      $ref: "#/$defs/network"
+
+  endpoints:
+    type: object
+    description: "Network participants represented as concrete nodes or scalable pools."
+    additionalProperties:
+      $ref: "#/$defs/endpoint"
+
+  links:
+    type: array
+    description: "Connectivity relationships between endpoints. Each link connects exactly two endpoints."
+    items:
+      $ref: "#/$defs/link"
+
+  routes:
+    type: array
+    description: "Logical paths that must exist between source and destination endpoints."
+    items:
+      $ref: "#/$defs/route"
+
+  policies:
+    type: array
+    description: "Rules that determine whether communication between endpoints is allowed or denied."
+    items:
+      $ref: "#/$defs/policy"
+
+
+$defs:
+
+  # ============================================================
+  # NETWORK
+  # ============================================================
+
+  network:
+    type: object
+    description: "A logical network and its IP address spaces."
+
+    required:
+      - addresses
+
+    additionalProperties: false
+
+    properties:
+
+      addresses:
+        type: object
+        description: "IP address spaces associated with the network."
+
+        minProperties: 1
+        additionalProperties: false
+
+        properties:
+
+          ipv4:
+            $ref: "#/$defs/address"
+
+          ipv6:
+            $ref: "#/$defs/address"
+
+
+  address:
+    type: object
+    description: "Address space configuration for an IP address family."
+
+    required:
+      - cidr
+
+    additionalProperties: false
+
+    properties:
+
+      cidr:
+        type: string
+        description: "CIDR prefix defining the address space."
+        minLength: 1
+
+
+  # ============================================================
+  # ENDPOINT
+  # ============================================================
+
+  endpoint:
+    description: "A participant in one or more logical networks."
+
+    oneOf:
+      - $ref: "#/$defs/node-endpoint"
+      - $ref: "#/$defs/pool-endpoint"
+
+
+  node-endpoint:
+    type: object
+    description: "A single concrete endpoint."
+
+    required:
+      - node
+
+    additionalProperties: false
+
+    properties:
+
+      node:
+        type: object
+        description: "Configuration of a single concrete endpoint."
+
+        required:
+          - roles
+          - networks
+
+        additionalProperties: false
+
+        properties:
+
+          roles:
+            $ref: "#/$defs/roles"
+
+          networks:
+            $ref: "#/$defs/network-references"
+
+
+  pool-endpoint:
+    type: object
+    description: "A scalable logical endpoint representing multiple concrete endpoint instances."
+
+    required:
+      - pool
+
+    additionalProperties: false
+
+    properties:
+
+      pool:
+        type: object
+        description: "Configuration of a scalable endpoint pool."
+
+        required:
+          - capacity
+          - roles
+          - networks
+
+        additionalProperties: false
+
+        properties:
+
+          capacity:
+            type: integer
+            description: "Maximum number of concrete endpoint instances represented by the pool."
+            minimum: 1
+
+          roles:
+            $ref: "#/$defs/roles"
+
+          networks:
+            $ref: "#/$defs/network-references"
+
+
+  roles:
+    type: array
+    description: "Roles assigned to an endpoint. Roles can be used by selectors."
+    minItems: 1
+    uniqueItems: true
+
+    items:
+      type: string
+      description: "A role assigned to the endpoint."
+      minLength: 1
+
+
+  network-references:
+    type: array
+    description: "Identifiers of logical networks to which the endpoint is attached."
+    minItems: 1
+    uniqueItems: true
+
+    items:
+      type: string
+      description: "Identifier of a network declared in the networks section."
+      minLength: 1
+
+
+  # ============================================================
+  # LINKS
+  # ============================================================
+
+  link:
+    type: object
+    description: "A connectivity relationship between exactly two endpoints."
+
+    required:
+      - source
+      - target
+
+    additionalProperties: false
+
+    properties:
+
+      source:
+        $ref: "#/$defs/endpoint-reference"
+
+      target:
+        $ref: "#/$defs/endpoint-reference"
+
+
+  # ============================================================
+  # ROUTES
+  # ============================================================
+
+  route:
+    type: object
+    description: "A logical route between a source and destination endpoint."
+
+    required:
+      - source
+      - target
+
+    additionalProperties: false
+
+    properties:
+
+      source:
+        $ref: "#/$defs/endpoint-reference"
+
+      target:
+        $ref: "#/$defs/endpoint-reference"
+
+
+  # ============================================================
+  # POLICIES
+  # ============================================================
+
+  policy:
+    type: object
+    description: "An authorization rule controlling communication between endpoints."
+
+    required:
+      - source
+      - destination
+      - action
+
+    additionalProperties: false
+
+    properties:
+
+      source:
+        $ref: "#/$defs/endpoint-reference"
+
+      destination:
+        $ref: "#/$defs/endpoint-reference"
+
+      action:
+        type: string
+        description: "Defines whether communication from source to destination is allowed or denied."
+
+        enum:
+          - allow
+          - deny
+
+
+  # ============================================================
+  # ENDPOINT REFERENCES
+  # ============================================================
+
+  endpoint-reference:
+    description: "Reference to one or more endpoints, either by explicit identifier or by selector."
+
+    oneOf:
+      - $ref: "#/$defs/id-reference"
+      - $ref: "#/$defs/selector-reference"
+
+
+  id-reference:
+    type: object
+    description: "Reference to one specific endpoint by identifier."
+
+    required:
+      - id
+
+    additionalProperties: false
+
+    properties:
+
+      id:
+        type: string
+        description: "Identifier of an endpoint declared in the endpoints section."
+        minLength: 1
+
+
+  selector-reference:
+    type: object
+    description: "Reference to endpoints matching a selector."
+
+    required:
+      - selector
+
+    additionalProperties: false
+
+    properties:
+
+      selector:
+        $ref: "#/$defs/selector"
+
+
+  selector:
+    type: object
+    description: "Criteria used to dynamically select endpoints."
+
+    required:
+      - role
+
+    additionalProperties: false
+
+    properties:
+
+      role:
+        type: string
+        description: "Selects endpoints that have the specified role."
+        minLength: 1

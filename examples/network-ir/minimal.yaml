@@ -1,0 +1,63 @@
+version: "1"
+
+networks:
+  server:
+    addresses:
+      ipv4:
+        cidr: 10.168.1.0/24
+      ipv6:
+        cidr: fd00:1234:5678::/48
+
+  gaming:
+    addresses:
+      ipv4:
+        cidr: 10.16.0.0/24
+      ipv6:
+        cidr: fd00:5678:abcd::/48
+
+endpoints:
+  my-desktop:
+    node:
+      roles:
+        - client
+      networks:
+        - server
+        - gaming
+
+  home-lab-server:
+    node:
+      roles:
+        - server
+      networks:
+        - server
+        - gaming
+
+  clients:
+    pool:
+      capacity: 100
+      roles:
+        - client
+      networks:
+        - gaming
+
+links:
+  - source:
+      id: clients
+    target:
+      selector:
+        role: server
+
+routes:
+  - source:
+      id: clients
+    target:
+      selector:
+        role: server
+
+policies:
+  - source:
+      id: clients
+    destination:
+      selector:
+        role: server
+    action: allow
