@@ -13,7 +13,7 @@ public abstract class WgConfig implements ConfigValue {
 
     @Override
     public boolean accept(Format format) {
-        return Format.WG_CORE.equals(format);
+        return Format.WG.equals(format);
     }
 
     @Override

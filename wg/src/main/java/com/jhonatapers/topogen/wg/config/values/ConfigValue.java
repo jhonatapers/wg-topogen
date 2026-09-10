@@ -17,7 +17,7 @@ public interface ConfigValue {
     }
 
     public enum Format {
-        WG_CORE,
+        WG,
         WG_QUICK,
     }
 
