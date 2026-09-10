@@ -1,0 +1,21 @@
+plugins {
+    id 'java-conventions'
+    id 'java-library'
+}
+
+dependencies {
+    // YAML parsing and data-bind
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2'
+    implementation 'org.yaml:snakeyaml:2.0'
+
+    // JSON Schema validation (Draft 2020-12)
+    implementation 'com.networknt:json-schema-validator:1.0.81'
+
+    testImplementation 'junit:junit:4.13.2'
+}
+
+test {
+    useJUnit()
+    // don't fail the build if no tests are discovered in some environments
+    failOnNoDiscoveredTests = false
+}
