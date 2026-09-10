@@ -1,6 +1,6 @@
-package com.jhonatapers.topogen.wg.config.values;
+package com.jhonatapers.topogen.wg.model.conf.values;
 
-import com.jhonatapers.topogen.wg.config.section.Section;
+import com.jhonatapers.topogen.wg.model.conf.section.Section;
 
 public interface ConfigValue {
 

@@ -1,4 +1,4 @@
-package com.jhonatapers.topogen.wg.config.values.quick;
+package com.jhonatapers.topogen.wg.model.conf.values.quick;
 
 public final class DNS extends WgQuickConfig {
 

@@ -1,7 +1,7 @@
-package com.jhonatapers.topogen.wg.config.values.quick;
+package com.jhonatapers.topogen.wg.model.conf.values.quick;
 
-import com.jhonatapers.topogen.wg.config.section.Section;
-import com.jhonatapers.topogen.wg.config.values.ConfigValue;
+import com.jhonatapers.topogen.wg.model.conf.section.Section;
+import com.jhonatapers.topogen.wg.model.conf.values.ConfigValue;
 
 public abstract class WgQuickConfig implements ConfigValue {
 

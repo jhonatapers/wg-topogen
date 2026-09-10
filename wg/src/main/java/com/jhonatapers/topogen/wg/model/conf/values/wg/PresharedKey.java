@@ -1,6 +1,6 @@
-package com.jhonatapers.topogen.wg.config.values.wg;
+package com.jhonatapers.topogen.wg.model.conf.values.wg;
 
-import com.jhonatapers.topogen.wg.config.section.Section;
+import com.jhonatapers.topogen.wg.model.conf.section.Section;
 
 public final class PresharedKey extends WgConfig {
 

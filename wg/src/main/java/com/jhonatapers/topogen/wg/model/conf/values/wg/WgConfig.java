@@ -1,7 +1,7 @@
-package com.jhonatapers.topogen.wg.config.values.wg;
+package com.jhonatapers.topogen.wg.model.conf.values.wg;
 
-import com.jhonatapers.topogen.wg.config.section.Section;
-import com.jhonatapers.topogen.wg.config.values.ConfigValue;
+import com.jhonatapers.topogen.wg.model.conf.section.Section;
+import com.jhonatapers.topogen.wg.model.conf.values.ConfigValue;
 
 public abstract class WgConfig implements ConfigValue {
 
