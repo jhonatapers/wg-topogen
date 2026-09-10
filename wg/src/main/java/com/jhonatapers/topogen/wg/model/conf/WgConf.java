@@ -7,6 +7,8 @@ import com.jhonatapers.topogen.wg.model.conf.section.Peer;
 
 public class WgConf {
 
+    private String name;
+
     private Interface wgInterface;
     private Set<Peer> peers;
 
@@ -26,4 +28,11 @@ public class WgConf {
         this.peers = Set.copyOf(peers);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
